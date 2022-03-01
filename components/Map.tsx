@@ -7,11 +7,12 @@ import Map, {
     NavigationControl,
     FullscreenControl,
     ScaleControl,
-    GeolocateControl
+    GeolocateControl,
+    Popup
 } from 'react-map-gl'
 import { Channel, Video } from '../interfaces'
-import Pin from '../components/pin';
-import { Location } from '../interfaces/index';
+import Pin from '../components/pin'
+import ControlPanel from '../components/ControlPanel'
 
 type Props = {
     mapboxKey?: string,
@@ -19,18 +20,24 @@ type Props = {
 }
 
 type State = {
-    videos?: Array<Video>
+    videos?: Array<Video>,
+    channels?: Array<Channel>,
+    popupVideo?: Video,
+    popupChannel?: Channel
 }
 
 class MapComponent extends React.Component<Props, State> {
     state: State = {
-        videos: []
+        channels: [],
+        videos: [],
+        popup: null
     };
 
     async componentDidMount() {
         axios.get<Channel[]>('http://localhost:4000/get-all')
             .then(response => {
                 this.setState({
+                    channels: response.data,
                     videos: response.data[0].videos
                 })
             });
@@ -54,23 +61,48 @@ class MapComponent extends React.Component<Props, State> {
                 <ScaleControl />
 
                 {
-                    this.state.videos.map((video, index) => {
-
-                        if (!isNaN(Number(video.video_location.longitude)) || !isNaN(Number(video.video_location.latitude))) {
-                            return <Marker
-                                key={`marker-${index}`}
-                                longitude={Number(video.video_location.longitude) }
-                                latitude={Number(video.video_location.latitude) }
-                                anchor="bottom"
-                            >
-                                <Pin />
-                            </Marker>
+                    this.state.channels.map((channel, channelIndex) => {
+                        return channel.videos.map((video, index) => {
+                            if (!isNaN(Number(video.video_location.longitude)) || !isNaN(Number(video.video_location.latitude))) {
+                                return <Marker
+                                    key={`marker-${channelIndex + "-" + index}`}
+                                    longitude={Number(video.video_location.longitude)}
+                                    latitude={Number(video.video_location.latitude)}
+                                    anchor="bottom"
+                                >
+                                    <Pin color={channel.map_marker_hex_color} onClick={() => this.setState({
+                                        popupVideo: video,
+                                        popupChannel: channel
+                                    })} />
+                                </Marker>
+                            }
                         }
-                    }
+                        )
+                    })}
 
-
-                    )
-                }
+{this.state.popupVideo && this.state.popupChannel && (
+          <Popup
+            anchor="top"
+            longitude={Number(this.state.popupVideo.video_location.longitude)}
+            latitude={Number(this.state.popupVideo.video_location.latitude)}
+            closeOnClick={false}
+            onClose={() => this.setState({
+                popupVideo: null,
+                popupChannel: null
+            })}
+          >
+            <div>
+              {this.state.popupVideo.video_titel} by {this.state.popupChannel.channel_name} |{' '}
+              {/* <a
+                target="_new"
+                href={`http://en.wikipedia.org/w/index.php?title=Special:Search&search=${popupInfo.city}, ${popupInfo.state}`}
+              >
+                Wikipedia
+              </a> */}
+            </div>
+            {/* <img width="100%" src={popupInfo.image} /> */}
+          </Popup>
+        )}
             </Map>
         </div>);
     }

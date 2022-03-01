@@ -13,7 +13,6 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => (
       <title>{title}</title>
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css' rel='stylesheet' />
     </Head>
     <div className='static h-full'>
       {children}

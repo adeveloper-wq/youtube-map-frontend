@@ -43,4 +43,5 @@ export type Channel = {
   made_for_kids: boolean,
   status: string,
   videos: Array<Video>,
+  map_marker_hex_color: string
 }
