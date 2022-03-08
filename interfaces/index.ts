@@ -7,7 +7,7 @@
 export type Video = {
   video_id: string,
   video_titel: string,
-  video_description: string,
+  /* video_description: string, */
   video_published_at: string,
   video_category_id: string,
   video_default_language: string,
@@ -43,5 +43,7 @@ export type Channel = {
   made_for_kids: boolean,
   status: string,
   videos: Array<Video>,
-  map_marker_hex_color: string
+  map_marker_hex_color: string,
+  last_updated: string,
+  video_count: number
 }

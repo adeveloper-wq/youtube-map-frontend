@@ -7,7 +7,7 @@ type Props = {
   title?: string
 }
 
-const Layout = ({ children, title = 'This is the default title' }: Props) => (
+const Layout = ({ children, title = 'undefined' }: Props) => (
   <div>
     <Head>
       <title>{title}</title>
@@ -17,7 +17,10 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => (
     <div className='static h-full'>
       {children}
       <header className='absolute top-2 left-2 bg-white py-2 px-4 rounded drop-shadow-md'>
-      <nav>
+        <h1>
+          {title}
+        </h1>
+      {/* <nav>
         <Link href="/">
           <a>Home</a>
         </Link>{' '}
@@ -30,7 +33,7 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => (
           <a>Users List</a>
         </Link>{' '}
         | <a href="/api/users">Users API</a>
-      </nav>
+      </nav> */}
     </header>
     
     {/* <footer className='absolute bottom-0 left-0'>
