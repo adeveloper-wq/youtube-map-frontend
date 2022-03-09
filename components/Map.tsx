@@ -60,7 +60,7 @@ class MapComponent extends React.Component<Props, State> {
 
                 {this.props.channels && this.props.channels !== undefined && this.props.channels.length > 0 &&
                     this.props.channels.map((channel, channelIndex) => {
-                        return channel.videos.map((video, index) => {
+                        return channel.channel_videos.map((video, index) => {
                             if (!isNaN(Number(video.video_location.longitude)) || !isNaN(Number(video.video_location.latitude))) {
                                 return <Marker
                                     key={`marker-${channelIndex + "-" + index}`}
@@ -78,7 +78,7 @@ class MapComponent extends React.Component<Props, State> {
                         )
                     })}
 
-                {this.props.channel && this.props.channel !== undefined && this.props.channel.videos !== undefined && this.props.channel.videos.map((video, videoIndex) => {
+                {this.props.channel && this.props.channel !== undefined && this.props.channel.channel_videos !== undefined && this.props.channel.channel_videos.map((video, videoIndex) => {
 
                     if (!isNaN(Number(video.video_location.longitude)) || !isNaN(Number(video.video_location.latitude))) {
                         return <Marker

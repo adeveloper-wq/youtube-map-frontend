@@ -42,8 +42,9 @@ export type Channel = {
   channel_trailer: string,
   made_for_kids: boolean,
   status: string,
-  videos: Array<Video>,
+  channel_videos: Array<Video>,
   map_marker_hex_color: string,
   last_updated: string,
-  video_count: number
+  video_count: number,
+  channel_custom_url: string
 }
