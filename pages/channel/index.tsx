@@ -11,7 +11,7 @@ const ChannelsIndexPage = () => {
   let mapboxKey = process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN;
 
   useEffect(() => {
-    toast.promise(axios.get<Channel[]>('http://localhost:4000/channel')
+    toast.promise(axios.get<Channel[]>('http://localhost:4000/')
       .then(response => {
         setChannels(response.data);
       })

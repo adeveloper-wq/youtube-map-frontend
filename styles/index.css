@@ -4,6 +4,6 @@
 /* purgecss end ignore */
 @tailwind utilities;
 
-html, body, #__next, #__next>div {
+html, body, #__next, #__next>div:first-of-type  {
     height: 100%
   }

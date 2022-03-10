@@ -7,7 +7,7 @@ import '../styles/index.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <>
-    <Component {...pageProps} />
+    <Component {...pageProps}></Component>
     <ToastContainer
       position="bottom-center"
       autoClose={10000}

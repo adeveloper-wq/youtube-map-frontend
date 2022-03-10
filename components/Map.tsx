@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { useMemo } from 'react';
-
+import YouTube from 'react-youtube';
 
 import Map, {
     Marker,
@@ -98,6 +97,7 @@ class MapComponent extends React.Component<Props, State> {
 
                 {this.state.popupVideo && this.state.popupChannel && (
                     <Popup
+                    className='h-100 w-100'
                         anchor="top"
                         longitude={Number(this.state.popupVideo.video_location.longitude)}
                         latitude={Number(this.state.popupVideo.video_location.latitude)}
@@ -108,15 +108,10 @@ class MapComponent extends React.Component<Props, State> {
                         })}
                     >
                         <div>
-                            {this.state.popupVideo.video_titel} by {this.state.popupChannel.channel_name} |{' '}
-                            {/* <a
-                target="_new"
-                href={`http://en.wikipedia.org/w/index.php?title=Special:Search&search=${popupInfo.city}, ${popupInfo.state}`}
-              >
-                Wikipedia
-              </a> */}
+                            {this.state.popupVideo.video_titel}|{' '}
                         </div>
-                        {/* <img width="100%" src={popupInfo.image} /> */}
+                        <YouTube videoId={this.state.popupVideo.video_id} opts={{height: '118.13',
+      width: '210',}} />
                     </Popup>
                 )}
             </Map>
