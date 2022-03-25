@@ -1,4 +1,4 @@
-# Youtube Map Frontend (Next.js, Typerscript, Mapbox)
+# Youtube Map Frontend (Next.js, Typerscript, Mapbox) (work-in-progress)
 - Frontend of [this Backend](https://github.com/adeveloper-wq/youtube-map-backend)
 - It provides an user interface to manage and add channels as well as a world map visualizing the locations of Youtube videos
 
