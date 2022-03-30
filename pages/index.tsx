@@ -15,6 +15,18 @@ const IndexPage = () => {
       .then(response => {
         let channels = response.data;
         channels.sort((a, b) => a.channel_name.localeCompare(b.channel_name));
+        channels.map(function(channel) {
+          const date: Date = new Date(parseInt(channel.last_updated.$date.$numberLong, 10));
+          channel.last_updated = date;
+          let video_with_location_count = 0;
+          for (const video of channel.channel_videos){
+            if (!isNaN(Number(video.video_location.longitude)) && !isNaN(Number(video.video_location.latitude))) {
+              video_with_location_count = video_with_location_count + 1;
+            }
+          }
+          channel.videos_with_locations_count = video_with_location_count;
+          return channel;
+        })
         setChannels(channels);
       })
       , {

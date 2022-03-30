@@ -1,5 +1,5 @@
 import * as React from 'react'
-import YouTube from 'react-youtube';
+import ReactPlayer from 'react-player/youtube'
 
 import Map, {
     Marker,
@@ -60,7 +60,7 @@ class MapComponent extends React.Component<Props, State> {
                 {this.props.channels && this.props.channels !== undefined && this.props.channels.length > 0 &&
                     this.props.channels.map((channel, channelIndex) => {
                         return channel.channel_videos.map((video, index) => {
-                            if (!isNaN(Number(video.video_location.longitude)) || !isNaN(Number(video.video_location.latitude))) {
+                            if (!isNaN(Number(video.video_location.longitude)) && !isNaN(Number(video.video_location.latitude))) {
                                 return <Marker
                                     key={`marker-${channelIndex + "-" + index}`}
                                     longitude={Number(video.video_location.longitude)}
@@ -79,17 +79,19 @@ class MapComponent extends React.Component<Props, State> {
 
                 {this.props.channel && this.props.channel !== undefined && this.props.channel.channel_videos !== undefined && this.props.channel.channel_videos.map((video, videoIndex) => {
 
-                    if (!isNaN(Number(video.video_location.longitude)) || !isNaN(Number(video.video_location.latitude))) {
+                    if (!isNaN(Number(video.video_location.longitude)) && !isNaN(Number(video.video_location.latitude))) {
                         return <Marker
                             key={`marker-${videoIndex}`}
                             longitude={Number(video.video_location.longitude)}
                             latitude={Number(video.video_location.latitude)}
                             anchor="bottom"
                         >
-                            <Pin color={this.props.channel.map_marker_hex_color} onClick={() => this.setState({
-                                popupVideo: video,
-                                popupChannel: this.props.channel
-                            })} />
+                            <Pin color={this.props.channel.map_marker_hex_color} onClick={() => {
+                                this.setState({
+                                    popupVideo: video,
+                                    popupChannel: this.props.channel
+                                })
+                            }} />
                         </Marker>
                     }
 
@@ -110,8 +112,8 @@ class MapComponent extends React.Component<Props, State> {
                         <div>
                             {this.state.popupVideo.video_titel}|{' '}
                         </div>
-                        <YouTube videoId={this.state.popupVideo.video_id} opts={{height: '118.13',
-      width: '210',}} />
+                        <ReactPlayer url={`https://www.youtube.com/watch?v=${this.state.popupVideo.video_id}`} width="210" height="118.13" /* opts={{height: '118.13',
+      width: '210',}} */ />
                     </Popup>
                 )}
             </Map>

@@ -47,15 +47,15 @@ const ChannelsPage = (props) => {
             error: '\xa0Failed crawling🤯'
           })
 
-          toast.info('🦄 The channel data has been crawled! The backend is now looking for the location data of the most recent videos. Come back in a few minutes (same url as now) to see the videos on the map. Its faster if the location feature of Youtube is used. Otherwise the backend tries to get the locations from the titles of the videos.', {
-            position: "bottom-center",
-            autoClose: false,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+        toast.info('🦄 The channel data has been crawled! The backend is now looking for the location data of the most recent videos. Come back in a few minutes (same url as now) to see the videos on the map. Its faster if the location feature of Youtube is used. Otherwise the backend tries to get the locations from the titles of the videos.', {
+          position: "bottom-center",
+          autoClose: false,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
 
       } else {
         toast.success('🦄 Channel with the gathered location data is already in the database!', {
@@ -68,12 +68,21 @@ const ChannelsPage = (props) => {
           progress: undefined,
         });
       }
+      const date: Date = new Date(parseInt(channel_data.last_updated.$date.$numberLong, 10));
+      channel_data.last_updated = date;
+      let video_with_location_count = 0;
+      for (const video of channel_data.channel_videos) {
+        if (!isNaN(Number(video.video_location.longitude)) && !isNaN(Number(video.video_location.latitude))) {
+          video_with_location_count = video_with_location_count + 1;
+        }
+      }
+      channel_data.videos_with_locations_count = video_with_location_count;
       setChannel(channel_data)
     }
     getChannelData()
   }, [])
 
-  return <Layout title={channel !== undefined ? "Youtube Map: " + channel.channel_name : "Loading"}>
+  return <Layout channel={channel} title={channel !== undefined ? "Youtube Map: " + channel.channel_name : "Loading"}>
     <MapComponent className="h-full rounded" mapboxKey={mapboxKey} channel={channel} />
 
   </Layout>
@@ -82,5 +91,5 @@ const ChannelsPage = (props) => {
 export default ChannelsPage
 
 export async function getServerSideProps(content) {
-  return {props: {channel_id: content.query.channel_id}}
-  }
+  return { props: { channel_id: content.query.channel_id } }
+}

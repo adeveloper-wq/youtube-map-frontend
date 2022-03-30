@@ -44,7 +44,8 @@ export type Channel = {
   status: string,
   channel_videos: Array<Video>,
   map_marker_hex_color: string,
-  last_updated: string,
+  last_updated: Date,
   video_count: number,
-  channel_custom_url: string
+  channel_custom_url: string,
+  videos_with_locations_count: number
 }
